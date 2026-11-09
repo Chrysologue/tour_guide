@@ -1,0 +1,75 @@
+I want to design a website, backend first using typescript, node.js express.js and MongoDB. this website is a tour guide where there is home, with hero that can be video or image, there is circuit, gallery, contact, about and customers, review but customers do not create account, only admin. Admin will have the role to add, update, delete circuit and photo, the also have the ability do accept, delete reviews, there is no payment in this. what could be the plan for this, only backend. I want a details about how to do this
+
+DATABASE DESIGN
+****************
+admins: Administrator accounts and credentials
+circuits: Tour packages, descriptions, locations and durations
+media: Gallery photos, circuit photos and hero images or videos
+reviews:: Customer reviews and moderate status
+inquiries: messages submitted through the contact form
+site_setting: About content, contact information and homepage settings
+
+tour_guide_db
+
+1.Amdin table
+	id
+	username
+	email
+	password_hash
+2-Circuits table
+	id
+	title
+	slug URL-friendly identifier
+	description
+	location
+	duration
+	price
+	itinerary (Day-by-day tour information)
+	is_published (public visibility)
+3-Media
+	id
+	circuit_id
+	type ENUM (image or video)
+	category ENUM (hero, gallery, circuit)
+	url (cloudinary)
+	public_id (Cloudinary identifier)
+	alt_text (Image description)
+	sort_order (Display order)
+The circuit_id is nullable:
+	If it is linked to a circuit, it belongs to that tour.
+	If it is not linked to a circuit, it can be a general gallery or hero image.
+4-Reviews table
+	id
+	customer_name (Customer's name)
+	email
+	rating
+	comment
+	status ENUM (pending, approved, rejected)
+5-Inquiries table
+This table stores messages from visitors using the contact page.
+	id
+	name
+	email
+	phone
+	subject
+	message
+	status ENUM (new, read, replied, archived)
+The administrator can view, update the status, and delete inquiries.
+6-Site settings table
+	id
+	key (Setting identifier)
+	value JSONB Setting content
+
+{
+  "key": "contact_information",
+  "value": {
+    "email": "info@example.com",
+    "phone": "+27123456789",
+    "address": "Johannesburg, South Africa",
+    "whatsapp": "+27123456789"
+  }
+}
+
+
+mongodb+srv://chrysobeatz_db_user:ftONxKdiJ39U8Iki@cluster0.hugvxev.mongodb.net/tour_guide_db
+	
